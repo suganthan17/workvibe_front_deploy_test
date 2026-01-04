@@ -4,12 +4,13 @@ import { SquarePenIcon, CheckCheck, User, Upload } from "lucide-react";
 import toast from "react-hot-toast";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const RecruiterProfile = () => {
   const [logo, setLogo] = useState(null);
 
   const [companyInfo, setCompanyInfo] = useState({
     name: "",
-    email: "", // display-only (comes from basicInfo)
+    email: "",
     location: "",
     website: "",
   });
@@ -63,7 +64,6 @@ const RecruiterProfile = () => {
     try {
       const formData = new FormData();
 
-      // Email should NOT be updated here (comes from auth/basicInfo)
       formData.append(
         "companyInfo",
         JSON.stringify({
@@ -160,7 +160,7 @@ const RecruiterProfile = () => {
 
             {editFlags.logo ? (
               <div className="flex gap-3">
-                <label className="flex items-center gap-2 text-sm text-indigo-600 cursor-pointer">
+                <label className="flex items-center gap-2 text-sm text-indigo-600 cursor-pointer hover:underline">
                   <Upload size={16} />
                   Change logo
                   <input
@@ -173,17 +173,15 @@ const RecruiterProfile = () => {
 
                 <button
                   onClick={saveProfile}
-                  className="text-green-600"
+                  className="text-green-600 cursor-pointer hover:scale-110 transition"
                 >
                   <CheckCheck size={18} />
                 </button>
               </div>
             ) : (
               <button
-                onClick={() =>
-                  setEditFlags((p) => ({ ...p, logo: true }))
-                }
-                className="text-indigo-600"
+                onClick={() => setEditFlags((p) => ({ ...p, logo: true }))}
+                className="text-indigo-600 cursor-pointer hover:scale-110 transition"
               >
                 <SquarePenIcon size={18} />
               </button>
@@ -194,9 +192,7 @@ const RecruiterProfile = () => {
         {/* COMPANY INFORMATION */}
         <div className="bg-white rounded-3xl border border-gray-200 p-8">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="font-semibold text-gray-900">
-              Company Information
-            </h2>
+            <h2 className="font-semibold text-gray-900">Company Information</h2>
 
             <button
               onClick={() =>
@@ -204,7 +200,7 @@ const RecruiterProfile = () => {
                   ? saveProfile()
                   : setEditFlags((p) => ({ ...p, companyInfo: true }))
               }
-              className="text-indigo-600"
+              className="text-indigo-600 cursor-pointer hover:scale-110 transition"
             >
               {editFlags.companyInfo ? (
                 <CheckCheck size={18} />
