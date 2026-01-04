@@ -6,8 +6,11 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const ProfileGuard = ({ role, children }) => {
   const navigate = useNavigate();
   const [checking, setChecking] = useState(true);
+  const [allowed, setAllowed] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
+
     const checkProfile = async () => {
       try {
         const url =
@@ -17,33 +20,50 @@ const ProfileGuard = ({ role, children }) => {
 
         const res = await fetch(url, { credentials: "include" });
         if (!res.ok) {
-          navigate("/login");
+          navigate("/login", { replace: true });
           return;
         }
 
         const data = await res.json();
 
-        if (
-          (role === "seeker" &&
-            (!data.basicInfo?.fullName || !data.basicInfo?.phone)) ||
-          (role === "recruiter" &&
-            (!data.basicInfo?.name || !data.companyInfo?.name))
-        ) {
+        const isValid =
+          role === "seeker"
+            ? data.basicInfo?.fullName && data.basicInfo?.phone
+            : data.basicInfo?.name && data.companyInfo?.name;
+
+        if (!isValid) {
           navigate(
-            role === "seeker" ? "/seeker/profile" : "/recruiter/profile"
+            role === "seeker" ? "/seeker/profile" : "/recruiter/profile",
+            { replace: true }
           );
           return;
         }
 
-        setChecking(false);
+        if (mounted) {
+          setAllowed(true);
+          setChecking(false);
+        }
       } catch {
-        navigate("/login");
+        navigate("/login", { replace: true });
       }
     };
+
     checkProfile();
+
+    return () => {
+      mounted = false;
+    };
   }, [navigate, role]);
 
-  if (checking) return null;
+  if (checking) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-700"></div>
+      </div>
+    );
+  }
+
+  if (!allowed) return null;
 
   return children;
 };
