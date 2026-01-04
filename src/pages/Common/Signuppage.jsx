@@ -4,10 +4,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Illustration from "/src/assets/ab4.jpg";
 
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://workvibe-backend.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function SignupPage() {
   const [showPwd, setShowPwd] = useState(false);

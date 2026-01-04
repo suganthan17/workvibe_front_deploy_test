@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { CloudUpload } from "lucide-react";
 
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://workvibe-backend.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function ApplyPopup({ jobId, onClose, onApplied }) {
   const [file, setFile] = useState(null);

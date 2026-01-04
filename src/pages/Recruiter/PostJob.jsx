@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import SidebarRecruiter from "../../components/SidebarRecruiter";
 import toast, { Toaster } from "react-hot-toast";
 
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://workvibe-backend.onrender.com";
-
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const PostJob = () => {
   const [formData, setFormData] = useState({
     jobTitle: "",

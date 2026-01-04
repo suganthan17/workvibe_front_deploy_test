@@ -10,11 +10,7 @@ import {
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://workvibe-backend.onrender.com";
-
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function SavedJobs() {
   const [savedJobs, setSavedJobs] = useState([]);
   const [currentUserId, setCurrentUserId] = useState("");

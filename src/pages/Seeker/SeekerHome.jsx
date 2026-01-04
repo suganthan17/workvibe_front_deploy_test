@@ -3,10 +3,7 @@ import SidebarSeeker from "../../components/SidebarSeeker";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;;
 
 const SeekerHome = () => {
   const [saved, setSaved] = useState(0);

@@ -3,11 +3,7 @@ import SidebarRecruiter from "../../components/SidebarRecruiter";
 import { SquarePenIcon, CheckCheck, User, Upload } from "lucide-react";
 import toast from "react-hot-toast";
 
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://workvibe-backend.onrender.com";
-
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const RecruiterProfile = () => {
   const [logo, setLogo] = useState(null);
 

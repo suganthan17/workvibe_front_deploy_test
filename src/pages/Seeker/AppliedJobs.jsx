@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SidebarSeeker from "../../components/SidebarSeeker";
 
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://workvibe-backend.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function AppliedJobs() {
   const [applications, setApplications] = useState([]);

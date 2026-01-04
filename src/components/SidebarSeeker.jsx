@@ -4,11 +4,7 @@ import { Blend, LogOut } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SeekerSidebar } from "../data/data";
 import toast from "react-hot-toast";
-
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://workvibe-backend.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function SidebarSeeker() {
   const navigate = useNavigate();

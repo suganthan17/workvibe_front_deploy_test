@@ -4,10 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Briefcase, Building2, MapPin, Clock, Tag, Globe } from "lucide-react";
 import ApplyPopup from "../../components/ApplyPopup";
 
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://workvibe-backend.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function JobDetails({ job: propJob = null }) {
   const { jobId } = useParams();

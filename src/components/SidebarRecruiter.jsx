@@ -4,10 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { RecruiterSidebar } from "../data/data";
 import toast from "react-hot-toast";
 
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://workvibe-backend.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function SidebarRecruiter() {
   const navigate = useNavigate();
