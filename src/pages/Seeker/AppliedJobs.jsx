@@ -22,8 +22,7 @@ function AppliedJobs() {
 
         const data = await res.json();
         setApplications(data.applications || []);
-      } catch (err) {
-        console.error(err);
+      } catch (err) {err
         setError(true);
       } finally {
         setLoading(false);
@@ -100,11 +99,8 @@ function AppliedJobs() {
                     {app.status}
                   </span>
 
-                  {/* ✅ CORRECT DOWNLOAD */}
                   <a
-                    href={app.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={`${BASE_URL}/api/application/download/${app._id}`}
                     className="text-indigo-600 font-medium hover:underline"
                   >
                     Download Resume
