@@ -25,6 +25,41 @@ function AppliedJobs() {
     fetchData();
   }, []);
 
+  const downloadResume = async (id, filename) => {
+    try {
+      const res = await fetch(
+        `${BASE_URL}/api/application/download/${id}`,
+        { credentials: "include" }
+      );
+      if (!res.ok) throw new Error("Download failed");
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      window.URL.revokeObjectURL(url);
+    } catch {
+      alert("Unable to download resume");
+    }
+  };
+
+  const statusStyle = (status) => {
+    switch (status) {
+      case "Hired":
+        return "bg-green-50 text-green-700";
+      case "Rejected":
+        return "bg-red-50 text-red-700";
+      default:
+        return "bg-yellow-50 text-yellow-700";
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-[#F7F9FC]">
       <SidebarSeeker />
@@ -36,11 +71,15 @@ function AppliedJobs() {
             <div className="p-10 text-center">Loading…</div>
           ) : error ? (
             <div className="p-10 text-center">Error loading data</div>
+          ) : applications.length === 0 ? (
+            <div className="p-10">No applications found.</div>
           ) : (
-            applications.map((app) => (
+            applications.map((app, i) => (
               <div
                 key={app._id}
-                className="p-6 flex justify-between border-b"
+                className={`p-6 flex justify-between ${
+                  i !== applications.length - 1 && "border-b"
+                }`}
               >
                 <div>
                   <h2 className="font-semibold">{app.jobId?.jobTitle}</h2>
@@ -49,12 +88,23 @@ function AppliedJobs() {
                   </p>
                 </div>
 
-                <a
-                  href={`${BASE_URL}/api/application/download/${app._id}`}
-                  className="text-indigo-600 font-medium hover:underline"
-                >
-                  Download Resume
-                </a>
+                <div className="flex items-center gap-6">
+                  <span
+                    className={`px-3 py-1 text-xs rounded-full ${statusStyle(
+                      app.status
+                    )}`}
+                  >
+                    {app.status}
+                  </span>
+                  <button
+                    onClick={() =>
+                      downloadResume(app._id, app.resumeName)
+                    }
+                    className="text-indigo-600 font-medium hover:underline"
+                  >
+                    Download Resume
+                  </button>
+                </div>
               </div>
             ))
           )}
