@@ -21,7 +21,6 @@ function AppliedJobs() {
         setLoading(false);
       }
     };
-
     fetchAppliedJobs();
   }, []);
 
@@ -36,11 +35,9 @@ function AppliedJobs() {
     }
   };
 
-  // 🔑 Google Docs Viewer (ONLY WAY TO PREVIEW)
-  const getViewUrl = (url) =>
-    `https://docs.google.com/gview?url=${encodeURIComponent(
-      url
-    )}&embedded=true`;
+  // 🔑 Force Cloudinary RAW download
+  const getDownloadUrl = (url) =>
+    url ? url.replace("/upload/", "/upload/fl_attachment/") : "#";
 
   return (
     <div className="flex min-h-screen bg-[#F7F9FC]">
@@ -48,9 +45,7 @@ function AppliedJobs() {
 
       <main className="flex-1 px-12 py-10">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Applied Jobs
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900">Applied Jobs</h1>
           <p className="text-sm text-gray-500 mt-1">
             View all the jobs you have applied for.
           </p>
@@ -58,9 +53,7 @@ function AppliedJobs() {
 
         <div className="max-w-4xl bg-white rounded-2xl border border-gray-200">
           {loading ? (
-            <div className="px-6 py-8 text-gray-500">
-              Loading applications…
-            </div>
+            <div className="px-6 py-8 text-gray-500">Loading applications…</div>
           ) : applications.length === 0 ? (
             <div className="px-6 py-10 text-gray-600">
               You haven’t applied for any jobs yet.
@@ -97,14 +90,13 @@ function AppliedJobs() {
                     {app.status}
                   </span>
 
-                  {/* ✅ VIEW ONLY */}
                   <a
-                    href={getViewUrl(app.resumeUrl)}
+                    href={getDownloadUrl(app.resumeUrl)}
                     target="_blank"
                     rel="noreferrer noopener"
                     className="text-sm font-medium text-indigo-600 hover:underline"
                   >
-                    View Resume
+                    Download Resume
                   </a>
                 </div>
               </div>
