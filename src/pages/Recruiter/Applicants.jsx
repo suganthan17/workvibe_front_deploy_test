@@ -43,9 +43,7 @@ function Applicants() {
         throw new Error(data.message || "Failed to update status");
 
       setApplications((apps) =>
-        apps.map((a) =>
-          a._id === id ? { ...a, status } : a
-        )
+        apps.map((a) => (a._id === id ? { ...a, status } : a))
       );
 
       toast.success(`Marked as ${status}`);
@@ -54,23 +52,29 @@ function Applicants() {
     }
   };
 
-  // ✅ FINAL WORKING DOWNLOAD HANDLER
-  const downloadResume = async (url) => {
+  // ✅ FINAL, WORKING, SESSION-SAFE DOWNLOAD
+  const downloadResume = async (id, filename) => {
     try {
       const res = await fetch(
-        `${url}?response-content-disposition=attachment`
+        `${BASE_URL}/api/application/download/${id}`,
+        { credentials: "include" }
       );
-      const blob = await res.blob();
 
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = "resume.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      if (!res.ok) throw new Error("Download failed");
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      window.URL.revokeObjectURL(url);
     } catch (err) {
-      toast.error("Failed to download resume");
-      console.error(err);
+      toast.error("Failed to download resume",err);
     }
   };
 
@@ -145,7 +149,9 @@ function Applicants() {
                 <div className="flex items-center justify-between mt-6">
                   {app.resumeUrl ? (
                     <button
-                      onClick={() => downloadResume(app.resumeUrl)}
+                      onClick={() =>
+                        downloadResume(app._id, app.resumeName)
+                      }
                       className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:underline"
                     >
                       <FileDown size={16} />
