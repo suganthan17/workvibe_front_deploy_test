@@ -13,7 +13,6 @@ function AppliedJobs() {
         const res = await fetch(`${BASE_URL}/api/application/my`, {
           credentials: "include",
         });
-
         const data = await res.json();
         setApplications(data.applications || []);
       } catch (err) {
@@ -42,7 +41,6 @@ function AppliedJobs() {
       <SidebarSeeker />
 
       <main className="flex-1 px-12 py-10">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Applied Jobs</h1>
           <p className="text-sm text-gray-500 mt-1">
@@ -50,7 +48,6 @@ function AppliedJobs() {
           </p>
         </div>
 
-        {/* List Container */}
         <div className="max-w-4xl bg-white rounded-2xl border border-gray-200">
           {loading ? (
             <div className="px-6 py-8 text-gray-500">Loading applications…</div>
@@ -89,6 +86,7 @@ function AppliedJobs() {
                     {app.status}
                   </span>
 
+                  {/* Resume Preview */}
                   <a
                     href={`https://docs.google.com/gview?url=${encodeURIComponent(
                       app.resumeUrl
@@ -97,7 +95,17 @@ function AppliedJobs() {
                     rel="noreferrer noopener"
                     className="text-sm font-medium text-indigo-600 hover:underline"
                   >
-                    View resume
+                    View
+                  </a>
+
+                  {/* Resume Download (always works) */}
+                  <a
+                    href={`${app.resumeUrl}?dl=true`}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="text-sm font-medium text-gray-600 hover:underline"
+                  >
+                    Download
                   </a>
                 </div>
               </div>
