@@ -35,9 +35,8 @@ function AppliedJobs() {
     }
   };
 
-  // 🔑 Force Cloudinary RAW download
   const getDownloadUrl = (url) =>
-    url ? url.replace("/upload/", "/upload/fl_attachment/") : "#";
+    url ? `${url}?fl_attachment=true` : "#";
 
   return (
     <div className="flex min-h-screen bg-[#F7F9FC]">
@@ -45,7 +44,9 @@ function AppliedJobs() {
 
       <main className="flex-1 px-12 py-10">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Applied Jobs</h1>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Applied Jobs
+          </h1>
           <p className="text-sm text-gray-500 mt-1">
             View all the jobs you have applied for.
           </p>
@@ -53,7 +54,9 @@ function AppliedJobs() {
 
         <div className="max-w-4xl bg-white rounded-2xl border border-gray-200">
           {loading ? (
-            <div className="px-6 py-8 text-gray-500">Loading applications…</div>
+            <div className="px-6 py-8 text-gray-500">
+              Loading applications…
+            </div>
           ) : applications.length === 0 ? (
             <div className="px-6 py-10 text-gray-600">
               You haven’t applied for any jobs yet.
