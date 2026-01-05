@@ -3,7 +3,7 @@ import SidebarSeeker from "../../components/SidebarSeeker";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const SeekerHome = () => {
   const [saved, setSaved] = useState(0);
@@ -23,19 +23,17 @@ const SeekerHome = () => {
 
         const data = await res.json();
         setSaved(data?.jobs?.length || 0);
-      } catch (err) {err
+      } catch (err) {
+        err;
         setSaved(0);
       }
     };
 
     const fetchAppliedCount = async () => {
       try {
-        const res = await fetch(
-          `${BASE_URL}/api/application/seeker/applications/count`,
-          {
-            credentials: "include",
-          }
-        );
+        const res = await fetch(`${BASE_URL}/api/application/count`, {
+          credentials: "include",
+        });
 
         if (!res.ok) {
           setApplied(0);
@@ -44,7 +42,8 @@ const SeekerHome = () => {
 
         const data = await res.json();
         setApplied(data?.count || 0);
-      } catch (err) {err
+      } catch (err) {
+        err;
         setApplied(0);
       }
     };
