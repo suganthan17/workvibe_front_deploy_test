@@ -89,7 +89,12 @@ function AppliedJobs() {
                     {app.status}
                   </span>
 
-                  <a href={app.resumeUrl} target="_blank" rel="noreferrer">
+                  <a
+                    href={`https://docs.google.com/gview?url=${encodeURIComponent(
+                      app.resumeUrl
+                    )}&embedded=true`}
+                    target="_blank"
+                  >
                     View resume
                   </a>
                 </div>
