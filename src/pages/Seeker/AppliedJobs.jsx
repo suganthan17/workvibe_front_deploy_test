@@ -36,24 +36,11 @@ function AppliedJobs() {
     }
   };
 
-  // ✅ FINAL WORKING DOWNLOAD HANDLER
-  const downloadResume = async (url) => {
-    try {
-      const res = await fetch(
-        `${url}?response-content-disposition=attachment`
-      );
-      const blob = await res.blob();
-
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = "resume.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (err) {
-      alert("Failed to download resume");
-      console.error(err);
-    }
+  // ✅ FINAL CORRECT DOWNLOAD METHOD
+  const downloadResume = (url) => {
+    if (!url) return;
+    window.location.href =
+      `${url}?response-content-disposition=attachment`;
   };
 
   return (
