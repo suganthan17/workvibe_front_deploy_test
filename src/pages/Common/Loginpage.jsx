@@ -9,6 +9,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default function LoginPage() {
   const [showPwd, setShowPwd] = useState(false);
   const [login, setLogin] = useState({ Email: "", Password: "" });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -19,6 +20,9 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     toast.dismiss();
+
+    if (loading) return;
+    setLoading(true);
 
     try {
       const res = await fetch(`${BASE_URL}/api/users/login`, {
@@ -31,6 +35,7 @@ export default function LoginPage() {
       const data = await res.json();
       if (!res.ok) {
         toast.error(data.message || "Invalid credentials");
+        setLoading(false);
         return;
       }
 
@@ -45,6 +50,8 @@ export default function LoginPage() {
       );
     } catch {
       toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,9 +110,22 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full cursor-pointer py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold shadow-md transition"
+              disabled={loading}
+              className={`w-full py-3 rounded-xl font-bold shadow-md transition
+                ${
+                  loading
+                    ? "bg-blue-500 cursor-not-allowed"
+                    : "bg-blue-700 hover:bg-blue-800 text-white"
+                }`}
             >
-              Log In
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  Logging in…
+                </span>
+              ) : (
+                "Log In"
+              )}
             </button>
           </form>
         </div>
